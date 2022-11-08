@@ -6,6 +6,8 @@ import (
 	"sqltostruct/internal/model"
 	"sqltostruct/libs/words"
 	"text/template"
+
+	"github.com/gogf/gf/v2/text/gstr"
 )
 
 /**
@@ -15,7 +17,7 @@ lt 小于
 eq 等于
 ne 不等于
 */
-const structTpl = `
+/*const structTpl = `
 package {{.PackageName}}
 
 type {{.DB.TableName | ToBigCamelCase }}Base struct{
@@ -36,7 +38,22 @@ type {{.DB.TableName | ToBigCamelCase }} struct{
 {{end}}
 }
 
+`*/
+
+
+const structTpl = `
+package {{.PackageName}}
+
+
+
+type {{.DB.TableName | ToBigCamelCase }} struct{
+{{ range .DB.Columns }} {{$typeLen := len .Type }} 
+	{{if gt $typeLen 0}} {{.Name | ToBigCamelCase}}	{{.Type}} {{.Tag}} {{else}}{{.Name}}{{end}} {{$length := len .Comment }}{{if gt $length 0}}	//{{ .Comment }} {{else}} //{{.Name}} {{end}}
+{{end}}
+}
+
 `
+
 
 type StructTemplate struct {
 	structTpl string
@@ -68,10 +85,15 @@ func (t *StructTemplate) AssemblyColumns(tbColumns []*model.TableColumn) []*Stru
 	tplColumns := make([]*StructColumn, 0, len(tbColumns))
 	for _, column := range tbColumns {
 		//`gorm:"create_user" form:"createUser" json:"createUser"`
-		tag := fmt.Sprintf("`"+"gorm:"+"\"%s\""+" form:"+"\"%s\""+" json:"+"\"%s\""+"`", column.ColumnName, words.ToCamelCase(column.ColumnName), words.ToCamelCase(column.ColumnName))
+		//tag := fmt.Sprintf("`"+"gorm:"+"\"%s\""+" form:"+"\"%s\""+" json:"+"\"%s\""+"`", column.ColumnName, words.ToCamelCase(column.ColumnName), words.ToCamelCase(column.ColumnName))
+		tag := fmt.Sprintf("`"+"gorm:"+"\"%s\""+"`", column.ColumnName)
+		if gstr.Contains(column.ColumnComment, "\r\n") {
+			column.ColumnComment = gstr.ReplaceI(column.ColumnComment, "\r\n", " ")
+		}
 		tplColumns = append(tplColumns, &StructColumn{
 			Type:       model.DBTypeToStructType[column.DataType],
 			Tag:        tag,
+			//过滤掉字段备注信息里的/r/n
 			Comment:    column.ColumnComment,
 			Name:       column.ColumnName,
 			IsShowBase: model.DBSkipColName[column.ColumnName],
@@ -97,7 +119,7 @@ func (t *StructTemplate) Generate(packageName string, tableName string, tplColum
 		},
 	}
 
-	//println(fmt.Sprintf("%s%s.go", filePwd, fileName))
+	println(fmt.Sprintf("%s%s.go", filePwd, fileName))
 
 	//创建文件句柄
 	f, er := os.Create(fmt.Sprintf("%s%s.go", filePwd, fileName))

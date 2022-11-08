@@ -2,9 +2,10 @@ package cmd
 
 import (
 	"fmt"
-	"gitee.com/nicole-go-libs/print-colors/color_print"
 	"os"
 	"sqltostruct/config"
+
+	"gitee.com/nicole-go-libs/print-colors/color_print"
 )
 
 func InitFileUrl() {

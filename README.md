@@ -1,6 +1,6 @@
 # 使用说明：
 > 本项目立项初衷为减少开发人员书写代码量，特别是设计了数据库后还要重新将字段转换为结构体，故此设计了此工具。
-> 说白了...... 就是为了偷懒O(∩_∩)O哈哈~
+> 不断追求极致的开发效率
 
 ## config 配置文件说明
 ```yaml
@@ -18,8 +18,7 @@ SqlConfig:
   Password: root #密码
   DataBaseName: go_frame # 数据库名称
 ```
-## .exe 文件使用说明
-> 下载压缩文件解压即可
+
 
 ## 拉取项目编译
 ```shell
@@ -31,25 +30,6 @@ go run main.go
 ```go 
 
 package entity
-
-type DictBase struct{
-	//字典码 
-	Code	string `gorm:"code" form:"code" json:"code"` 
-	//字典值 
-	DictKey	string `gorm:"dict_key" form:"dictKey" json:"dictKey"` 
-	//字典名称 
-	DictValue	string `gorm:"dict_value" form:"dictValue" json:"dictValue"` 
-	//主键 
-	Id	int32 `gorm:"id" form:"id" json:"id"` 
-	//是否已封存 
-	IsSealed	int32 `gorm:"is_sealed" form:"isSealed" json:"isSealed"` 
-	//父主键 
-	ParentId	int32 `gorm:"parent_id" form:"parentId" json:"parentId"` 
-	//字典备注 
-	Remark	string `gorm:"remark" form:"remark" json:"remark"` 
-	//排序 
-	Sort	int32 `gorm:"sort" form:"sort" json:"sort"` 
-}
 
 type Dict struct{
  	//字典码  
@@ -85,4 +65,12 @@ type Dict struct{
 
 ```
 
+
+## 功能
+
+1.生成单表
+
+2.生成全库的所有表
+
+3.todo 指定前缀的表
 

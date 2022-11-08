@@ -19,7 +19,7 @@ type TableNameColumn struct {
 }
 
 // DBTypeToStructType 数据库字段类型 转 go 数据字段类型
-var DBTypeToStructType = map[string]string{
+/*var DBTypeToStructType = map[string]string{
 	"int":       "int32",
 	"tinyint":   "int",
 	"smallint":  "int",
@@ -32,6 +32,33 @@ var DBTypeToStructType = map[string]string{
 	"varchar":   "string",
 	"text":      "string",
 	"datetime":  "string",
+}*/
+
+var DBTypeToStructType = map[string]string{
+	"int":       "int64",
+	"tinyint":   "int64",
+	"smallint":  "int64",
+	"mediumint": "int64",
+	"bigint":    "int64",
+
+	"bit":  "int64",
+	"bool": "bool",
+	"enum": "string",
+	"set":  "string",
+
+	"char":       "string",
+	"varchar":    "string",
+	"text":       "string",
+	"longtext":   "string",
+	"mediumtext": "string",
+
+	"date":      "string",
+	"datetime":  "string",
+	"timestamp": "string",
+
+	"decimal": "float64",
+	"double":  "float64",
+	"float":   "float64",
 }
 
 var DBSkipColName = map[string]string{

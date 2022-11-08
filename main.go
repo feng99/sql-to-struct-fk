@@ -32,7 +32,7 @@ func init() {
 
 func userScanLn() bool {
 	var isCustom int
-	fmt.Println("请输入是否直接执行配置文件 1:是 2:不是：")
+	fmt.Println("是否按照配置文件生成model 1:是 2:否：")
 	fmt.Scanln(&isCustom)
 	if isCustom == 1 {
 		return true
@@ -46,7 +46,7 @@ func userScanLn() bool {
 	} else {
 		config.Conf.IsAllDataBase = false
 		var tableName string
-		fmt.Println("请输入表名回车确认：")
+		fmt.Println("请输入表名回车确认[目前仅支持单表]：")
 		fmt.Scanln(&tableName)
 		config.Conf.TableName = tableName
 		return true
