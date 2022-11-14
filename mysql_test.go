@@ -16,10 +16,10 @@ func TestTempMain(t *testing.T) {
 	templates.TempMain()
 }
 
-//生成一个表的结构体
+// 生成一个表的结构体
 func TestTableOne(t *testing.T) {
 	config.Conf.IsAllDataBase = false
-	config.Conf.TableName = "eb_user_invite_log"
+	config.Conf.TableName = "eb_live_room"
 
 	service.SqlTwoStruct()
 
